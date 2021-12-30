@@ -11,6 +11,7 @@ A guide on how to set up a simple linux kernel for a pocketbeagle board using bu
   - Unmount all of the partitions of the SD card
   - Erase the SD card ```sudo dd if=/dev/zero of=/dev/mmcblk0 bs=1M count=16```. Replace mmcblk0 with where the SD card is mounted
   - Start the cfdisk tool ```sudo cfdisk /dev/mmcblk0``` to create two partitions
+  - select dos partition table type
   - Create a first small partition (128 MB), primary, with type e (W95 FAT16) and mark it bootable
   - Create a second partition, also primary, with the rest of the available space, with type 83 (Linux).
   - Format the first partition as a FAT32 filesystem: ```sudo mkfs.vfat -F 32 -n boot /dev/mmcblk0p1``` Replace mmcblk0p1 with where the SD card is mounted
