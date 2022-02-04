@@ -31,3 +31,30 @@ setenv bootargs console=ttyS0,115200n8 root=/dev/mmcblk0p2 rw rootfstype=ext4 ro
 
 bootz 0x82000000 - 0x88000000
 ```
+
+## Setting up network on the image for beaglebone black.
+1) Create a new custom directory board/felabs/beagleboneblack/rootfs-overlay/etc/init.d
+2) Add the S30usbgadget script provided in the git directory to this folder
+3) Create another directory board/felabs/beagleboneblack/rootfs-overlay/etc/network/
+4) In this directory create a file named interfaces with the following contents :
+```
+auto lo
+iface lo inet loopback
+auto usb0
+iface usb0 inet static
+  address 192.168.0.2
+  netmask 255.255.255.0
+```
+5) Enable the dropbear option in menuconfig by typing /DROPBEAR and enabling it.
+6) Customise the linux kernel configuration by enabling CONFIG_HW_RANDOM, CONFIG_HW_RANDOM_OMAP, and CONFIG_HW_RANDOM_OMAP3_ROM.
+7) To keep these changes you need to run menuconfig and in configuration file path, enter board/felabs/beagleboneblack/linux.config.
+8) run make linux-update-defconfig.
+9) Setting up the network device on mac, by going to network settings and finding the gadget.
+10) Change the configure IPv4 to manually and enter 192.168.0.1 in the IP address column and 255.255.255.0 in the Subnet mask column.
+
+## Minikube buildroot
+building a simple Linux environment to start Kubernetes from.
+
+## Steps
+1) Follow the instructions on the page https://minikube.sigs.k8s.io/docs/contrib/building/iso/
+2) However, run make clean before making the Linux image.
